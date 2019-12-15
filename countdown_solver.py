@@ -1,18 +1,6 @@
 import code
 import sys
-
 sys.setrecursionlimit(1500)
-def mult(a, b):
-    return a * b
-
-def div(a, b):
-    return a / b
-
-def add(a, b):
-    return a + b
-
-def sub(a, b):
-    return a - b
 
 ops = {
     '*' : lambda a, b: a * b,
@@ -44,7 +32,10 @@ class History:
     def __str__(self):
         ret_str = ''
         for op in self.ops:
-            ret_str += str(str(int(op[0])) + ' ' + str(op[1]) + ' ' + str(int(op[2])) + ' = ' + str(int(op[3])) + '\n')
+            ret_str +=  str(str(int(op[0])) + ' ' \
+                        + str(op[1]) + ' '\
+                        + str(int(op[2])) + ' = ' \
+                        + str(int(op[3])) + '\n')
         return ret_str
         
 
@@ -103,8 +94,22 @@ def solve_iteratively(target, numbers):
     return solutions
 
 if __name__ == '__main__':
-    in_targ = 265
-    in_nums = [5, 2, 10, 100, 50, 8]
-    # solutions = solve_numbers(in_targ, numbers=in_nums)
-    solution  = solve_iteratively(in_targ, in_nums)
-    code.interact(local=locals())
+    print(sys.argv[1])
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--numbers',
+                        dest='numbers',
+                        nargs='*',
+                        type=int,
+                        default=[])
+    parser.add_argument('-t', dest='target', type=int)
+    parser.add_argument('-i', dest='interactive', default=False)
+    args = parser.parse_args()
+    print(args.target, args.numbers)
+    solution  = solve_iteratively(args.target, args.numbers)
+    try:
+        if args.interactive in ['true', True, 1, '1', 'True']:
+            code.interact(local=locals())
+    except:
+        pass
